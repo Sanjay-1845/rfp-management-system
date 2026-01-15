@@ -1,0 +1,26 @@
+Extract an RFP from the following text.
+
+Return JSON with this structure:
+{
+  "title": string,
+  "rawInput": string,
+  "structured": {
+    "items": [
+      {
+        "name": string,
+        "quantity": number,
+        "specifications": object
+      }
+    ],
+    "budget": {
+      "amount": number,
+      "currency": string
+    },
+    "constraints": {
+      "deliveryDays": number,
+      "paymentTerms": string,
+      "warranty": string
+    },
+    "additionalNotes": string
+  }
+}

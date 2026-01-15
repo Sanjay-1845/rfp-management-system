@@ -1,0 +1,37 @@
+{
+  "title": "Procurement of Laptops and Monitors for New Office",
+  "rawInput": "I need to procure laptops and monitors for our new office. Budget is $50,000 total. Need delivery within 30 days. We need 20 laptops with 16GB RAM and 15 monitors 27-inch. Payment terms should be net 30, and we need at least 1 year warranty.",
+  "structured": {
+    "items": [
+      {
+        "name": "Laptop",
+        "quantity": 20,
+        "specifications": {
+          "ram": "16GB",
+          "storage": "512GB SSD",
+          "processor": "Intel Core i7 or equivalent",
+          "screen": "14 inch minimum"
+        }
+      },
+      {
+        "name": "Monitor",
+        "quantity": 15,
+        "specifications": {
+          "size": "27-inch",
+          "resolution": "1920x1080 minimum",
+          "connectivity": "HDMI, DisplayPort"
+        }
+      }
+    ],
+    "budget": {
+      "amount": 50000,
+      "currency": "USD"
+    },
+    "constraints": {
+      "deliveryDays": 30,
+      "paymentTerms": "Net 30",
+      "warranty": "At least 1 year"
+    },
+    "additionalNotes": "Delivery required within 30 days. Payment terms should be net 30. All equipment must have at least 1 year warranty."
+  }
+}
