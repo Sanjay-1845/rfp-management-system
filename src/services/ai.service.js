@@ -11,8 +11,17 @@ const systemPromptPath = path.join(__dirname, '../prompt/rfp_sys_prompt.txt');
 const userPromptPath = path.join(__dirname, '../prompt/rfp_user_prompt.txt');
 const sampleResponsePath = path.join(__dirname, '../prompt/rfp_sample_response.json');
 
+// Mail parsing prompt paths
+const mailParsingSystemPromptPath = path.join(__dirname, '../prompt/mail_parsing_sys_prompt.txt');
+const mailParsingUserPromptPath = path.join(__dirname, '../prompt/mail_parsing_user_prompt.txt');
+const vendorMailParsingSampleResponsePath = path.join(__dirname, '../prompt/vendor_mail_parsing_sample_response.json'); // This was already present, keeping it as is.
+
 const systemPrompt = fs.readFileSync(systemPromptPath, 'utf-8').trim();
 const userPromptTemplate = fs.readFileSync(userPromptPath, 'utf-8').trim();
+
+// Mail parsing prompts
+const mailParsingSystemPrompt = fs.readFileSync(mailParsingSystemPromptPath, 'utf-8').trim();
+const mailParsingUserPromptTemplate = fs.readFileSync(mailParsingUserPromptPath, 'utf-8').trim();
 
 exports.generateRFPFromText = async (text) => {
   // For testing: Read sample response from file instead of calling OpenAI API
@@ -40,3 +49,31 @@ exports.generateRFPFromText = async (text) => {
 
   // return JSON.parse(response.choices[0].message.content);
 };
+
+exports.extractProposalFromEmail = async ({ rfp, emailText }) => {
+  // For testing: Read sample response from file instead of calling OpenAI API
+  const sampleResponse = fs.readFileSync(vendorMailParsingSampleResponsePath, 'utf-8');
+  return JSON.parse(sampleResponse);
+
+  // TODO: Uncomment below when ready to use OpenAI API
+  // // Construct user prompt with RFP and email data
+  // const userPrompt = `${mailParsingUserPromptTemplate}\n\nRFP:\n${JSON.stringify(rfp.structured)}\n\nVendor Email:\n${emailText}`;
+
+  // const response = await client.chat.completions.create({
+  //   model: 'gpt-4o-mini',
+  //   temperature: 0,
+  //   messages: [
+  //     {
+  //       role: 'system',
+  //       content: mailParsingSystemPrompt
+  //     },
+  //     {
+  //       role: 'user',
+  //       content: userPrompt
+  //     }
+  //   ]
+  // });
+
+  // return JSON.parse(response.choices[0].message.content);
+};
+

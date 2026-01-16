@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.use('/api/rfps', require('./routes/rfp.routes'));
 app.use('/api/vendors', require('./routes/vendor.routes'));
-// app.use('/api/proposals', require('./routes/proposal.routes'));
+app.use('/webhooks', require('./routes/webhooks.routes'));
 
 
 app.get('/health', (req, res) => {

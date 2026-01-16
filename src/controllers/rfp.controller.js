@@ -25,7 +25,7 @@ exports.sendRFPToVendors = async (req, res) => {
       console.log("Sending RFP email to vendor: ", vendor.email);
       await sendRFPEmail({
         to: vendor.email,
-        subject: `RFP ${rfp.rfpId}: Invitation to Submit Proposal`,
+        subject: `RFP-${rfp.rfpId}: Invitation to Submit Proposal`,
         html: emailHtml
       });
     }

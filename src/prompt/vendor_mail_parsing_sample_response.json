@@ -1,0 +1,13 @@
+{
+    "extractedData": {
+        "pricing": {
+            "totalAmount": 48000,
+            "currency": "USD"
+        },
+        "deliveryDays": 25,
+        "warranty": "2 years",
+        "paymentTerms": "Net 30"
+    },
+    "summary": "The vendor has proposed supplying 20 laptops and 15 monitors for a total cost of $48,000. Delivery will be completed within 25 days, which meets the required timeline. The proposal includes a 2-year warranty and Net 30 payment terms, making it compliant with most RFP constraints.",
+    "score": 87
+}
