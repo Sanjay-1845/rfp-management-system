@@ -1,11 +1,16 @@
 // controllers/rfp.controller.js
+
+// models
 const RFP = require('../models/RFP');
-const { generateRFPFromText } = require('../services/ai.service');
-
-
 const Vendor = require('../models/Vendor');
+const Proposal = require('../models/Proposal');
+// ai services
+const { generateRFPFromText } = require('../services/ai.service');
+const { generateRecommendation } = require('../services/ai.service');
+// email services
 const { sendRFPEmail } = require('../services/email.service');
 const { buildRFPEmail } = require('../services/rfpEmailTemplate');
+
 
 exports.sendRFPToVendors = async (req, res) => {
   try {
@@ -54,24 +59,75 @@ exports.getRFPs = async (req, res) => {
 
 // main logic for creating an RFP from text
 exports.createRFPFromText = async (req, res) => {
-    try {
-      const { text } = req.body;
-  
-      if (!text) {
-        return res.status(400).json({ error: 'Text is required' });
-      }
-  
-      const aiResult = await generateRFPFromText(text);
-  
-      const rfp = await RFP.create({
-        title: aiResult.title || 'Untitled RFP',
-        rawInput: text,
-        structured: aiResult.structured
-      });
-  
-      res.status(201).json(rfp);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Failed to generate RFP' });
+  try {
+    const { text } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: 'Text is required' });
     }
+
+    const aiResult = await generateRFPFromText(text);
+
+    const rfp = await RFP.create({
+      title: aiResult.title || 'Untitled RFP',
+      rawInput: text,
+      structured: aiResult.structured
+    });
+
+    res.status(201).json(rfp);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to generate RFP' });
+  }
+};
+
+
+exports.compareProposals = async (req, res) => {
+  try {
+    const { rfpId } = req.params;
+
+    // 1. Fetch RFP
+    const rfp = await RFP.findOne({ rfpId });
+    if (!rfp) {
+      return res.status(404).json({ error: 'RFP not found' });
+    }
+
+    // 2. Fetch proposals
+    const proposals = await Proposal.find({ rfpId: rfp._id })
+      .populate('vendorId');
+
+    if (proposals.length === 0) {
+      return res.status(400).json({ error: 'No proposals received yet' });
+    }
+
+    // 3. Normalize data for comparison
+    const comparisonData = proposals.map(p => ({
+      vendorName: p.vendorId.name,
+      vendorEmail: p.vendorId.email,
+      pricing: p.extractedData?.pricing?.totalAmount,
+      deliveryDays: p.extractedData?.deliveryDays,
+      warranty: p.extractedData?.warranty,
+      paymentTerms: p.extractedData?.paymentTerms,
+      aiScore: p.aiScore
+    }));
+
+    // 4. AI recommendation
+    const recommendation = await generateRecommendation({
+      rfp,
+      proposals: comparisonData
+    });
+
+    res.json({
+      rfp: {
+        rfpId: rfp.rfpId,
+        title: rfp.title,
+        constraints: rfp.structured.constraints
+      },
+      proposals: comparisonData,
+      recommendation
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to compare proposals' });
+  }
 };
