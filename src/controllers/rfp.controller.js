@@ -4,9 +4,8 @@
 const RFP = require('../models/RFP');
 const Vendor = require('../models/Vendor');
 const Proposal = require('../models/Proposal');
-// ai services
-const { generateRFPFromText } = require('../services/ai.service');
-const { generateRecommendation } = require('../services/ai.service');
+// ai services (using Strategy Pattern)
+const { generateRFPFromText, generateRecommendation } = require('../services/ai');
 // email services
 const { sendRFPEmail } = require('../services/email.service');
 const { buildRFPEmail } = require('../services/rfpEmailTemplate');

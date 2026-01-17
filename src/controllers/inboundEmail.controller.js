@@ -1,7 +1,7 @@
 const RFP = require('../models/RFP');
 const Vendor = require('../models/Vendor');
 const Proposal = require('../models/Proposal');
-const { extractProposalFromEmail } = require('../services/ai.service');
+const { extractProposalFromEmail } = require('../services/ai');
 
 exports.handleInboundEmail = async (req, res) => {
   try {
