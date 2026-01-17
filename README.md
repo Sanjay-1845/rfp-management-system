@@ -27,9 +27,9 @@ An AI-powered Request for Proposal (RFP) management system that automates the cr
 ## Prerequisites
 
 - Node.js (v18 or higher)
-- MongoDB database (local or MongoDB Atlas)
+- MongoDB database (MongoDB Atlas)
 - OpenAI API key
-- SendGrid API key (optional, for email features)
+- SendGrid API key (for email features)
 
 ## Project Setup
 
@@ -168,7 +168,3 @@ The application includes a Mock Vendor Response page to simulate vendor email re
 2. Select an RFP and vendor
 3. Generate or write a sample proposal
 4. Submit to test the AI proposal parsing
-
-## License
-
-ISC
