@@ -46,10 +46,6 @@ exports.handleInboundEmail = async (req, res) => {
       aiScore: aiResult.score
     });
 
-    // 6. Update RFP status
-    rfp.status = 'RESPONSES_RECEIVED';
-    await rfp.save();
-
     res.status(200).send('Inbound email processed');
   } catch (err) {
     console.error(err);
