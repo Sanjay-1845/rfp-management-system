@@ -1,10 +1,12 @@
 const MockAIProvider = require('./providers/MockAIProvider');
 const OpenAIProvider = require('./providers/OpenAIProvider');
+const OllamaAIProvider = require('./providers/OllamaAIProvider');
 
 // Registry of available providers
 const providers = {
     mock: new MockAIProvider(),
-    openai: new OpenAIProvider()
+    openai: new OpenAIProvider(),
+    ollama: new OllamaAIProvider()
 };
 
 /**

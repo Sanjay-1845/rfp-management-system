@@ -2,6 +2,7 @@ const OpenAI = require('openai');
 const fs = require('fs');
 const path = require('path');
 const AIProvider = require('./AIProvider');
+const model = "gpt-4o-mini";
 
 class OpenAIProvider extends AIProvider {
     constructor() {
@@ -38,7 +39,7 @@ class OpenAIProvider extends AIProvider {
         const userPrompt = `${this.userPromptTemplate}\n\nText:\n${text}`;
 
         const response = await this.client.chat.completions.create({
-            model: 'gpt-4o-mini',
+            model: model,
             temperature: 0,
             messages: [
                 { role: 'system', content: this.systemPrompt },
@@ -55,7 +56,7 @@ class OpenAIProvider extends AIProvider {
         const userPrompt = `${this.mailParsingUserPromptTemplate}\n\nRFP:\n${JSON.stringify(rfp.structured)}\n\nVendor Email:\n${emailText}`;
 
         const response = await this.client.chat.completions.create({
-            model: 'gpt-4o-mini',
+            model: model,
             temperature: 0,
             messages: [
                 { role: 'system', content: this.mailParsingSystemPrompt },
@@ -70,7 +71,7 @@ class OpenAIProvider extends AIProvider {
         console.log('[OpenAIProvider] Generating recommendation using OpenAI API');
 
         const response = await this.client.chat.completions.create({
-            model: 'gpt-4o-mini',
+            model: model,
             temperature: 0,
             messages: [
                 {
